@@ -1,0 +1,1 @@
+cat test.in | julia solution.jl
