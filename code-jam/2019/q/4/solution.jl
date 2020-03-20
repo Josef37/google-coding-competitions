@@ -7,17 +7,9 @@ mutable struct Segment
   last_output::Int
 end
 
-function inputlength(segment::Segment)::Int
-  return segment.last_input - segment.first_input + 1
-end
-
-function outputlength(segment::Segment)::Int
-  return segment.last_output - segment.first_output + 1
-end
-
-function countbroken(segment::Segment)::Int
-  return inputlength(segment) - outputlength(segment)
-end
+inputlength(segment::Segment)::Int = segment.last_input - segment.first_input + 1
+outputlength(segment::Segment)::Int = segment.last_output - segment.first_output + 1
+countbroken(segment::Segment)::Int = inputlength(segment) - outputlength(segment)
 
 function alternate(segments::Array{Segment})
   str = ""
@@ -101,28 +93,28 @@ function solve_case(n, b, f)::Array{Int}
 end
 
 function split_segments(segments::Array{Segment,1})
-  segments = map(split, segments)
-  return reduce(vcat, segments)
-end
-
-function split(s::Segment) 
-  if s.last_input == s.first_input
-    return [s]
+  segments = map(segments) do s
+    if s.last_input == s.first_input
+      return [s]
+    end
+  
+    middle = (s.last_input + s.first_input) ÷ 2
+    return [
+      Segment(s.first_input, middle      , s.first_output, s.last_output),
+      Segment(middle + 1   , s.last_input, s.first_output, s.last_output)
+    ]
   end
-
-  middle = (s.last_input + s.first_input) ÷ 2
-  return [
-    Segment(s.first_input, middle      , s.first_output, s.last_output),
-    Segment(middle + 1   , s.last_input, s.first_output, s.last_output),
-  ] 
+  return reduce(vcat, segments)
 end
 
 function get_segment_lengths(bits) 
   bits_array = map(x->parse(Int,x), split(bits, ""))
-  Segment_ends = findall(diff(bits_array) .!= 0)
-  push!(Segment_ends, length(bits))
-  segment_lengths = diff(pushfirst!(Segment_ends, 0))
+  segment_ends = findall(diff(bits_array) .!= 0)
+  push!(segment_ends, length(bits))
+  segment_lengths = diff(pushfirst!(segment_ends, 0))
   return segment_lengths
 end
 
-solve()
+if abspath(PROGRAM_FILE) == @__FILE__
+  solve()
+end
