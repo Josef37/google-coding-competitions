@@ -1,3 +1,6 @@
+using JuMP
+using GLPK
+
 function solve()
   t = parse(Int, readline())
 
@@ -10,19 +13,12 @@ function solve()
 end
 
 function solve_case(n, b, as)
-  @assert n == length(as)
-
-  sort!(as)
-  y = 0
-  sum_a = 0
-  for a in as
-    if sum_a + a > b 
-      break 
-    end
-    y += 1
-    sum_a += a
-  end
-  return y
+  model = Model(GLPK.Optimizer)
+  @variable(model, x[1:length(as)], Bin)
+  @objective(model, Max, sum(x))
+  @constraint(model, con, sum(as .* x) <= b)
+  optimize!(model)
+  return floor(Int, objective_value(model))
 end
 
 function tointarray(string) 
@@ -31,13 +27,4 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
   solve()
-end
-
-function generator() 
-  str = "100\n"
-  for i in 1:100
-    str *= "100 3000\n" 
-    str *= join(map(_ -> rand(1:100), 1:100), ' ') * "\n"
-  end
-  write("test2.in", str)
 end
