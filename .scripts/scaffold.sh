@@ -10,6 +10,8 @@ fi;
 for ((i=1; i<=problems; i++)); do
   mkdir "$path/$i";
   cp $(dirname "$0")/solution.jl "$path/$i/solution.jl";
+  cp $(dirname "$0")/test.jl "$path/$i/test.jl";
+  cp $(dirname "$0")/interactive_runner.py "$path/$i/interactive_runner.py";
   touch "$path/$i/test.in";
 done;
 
