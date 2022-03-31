@@ -1,3 +1,6 @@
 interactive_runner.py
 !/.scripts/interactive_runner.py
 .vscode
+node_modules
+.parcel-cache
+build
