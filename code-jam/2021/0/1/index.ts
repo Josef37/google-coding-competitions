@@ -1,10 +1,4 @@
-import { createInterface as createReadlineInterface } from "readline";
-
-var readline = createReadlineInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
+import { readline } from "../utils/readline";
 
 const main = () => {
   let lineCount = 0;
