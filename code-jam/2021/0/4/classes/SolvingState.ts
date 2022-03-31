@@ -1,5 +1,5 @@
 import assert from "assert";
-import { range, orderBy } from "lodash";
+import { range, orderBy } from "lodash-es";
 import { Listener } from "./Listener";
 import { State } from "./State";
 import { Order, reverseOrder, GameState } from "../index";
@@ -67,7 +67,7 @@ export class SolvingState extends State {
     }
 
     if (newAffectedNumbers.size > 0)
-      this.generateTransitiveOrders([...newAffectedNumbers]);
+      this.generateTransitiveOrders(Array.from(newAffectedNumbers.values()));
   }
 
   allOrdersKnown() {

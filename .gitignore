@@ -4,3 +4,4 @@ interactive_runner.py
 node_modules
 .parcel-cache
 build
+dist
