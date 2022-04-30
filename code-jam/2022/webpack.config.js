@@ -1,11 +1,11 @@
-const path = require("path");
+const { resolve } = require("path");
 
-module.exports = {
+module.exports = (env) => ({
   // mode: "none",
-  entry: process.env.ENTRY || "./0/4/index.ts",
+  entry: env.entry,
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: env.outputPath || resolve(__dirname, "dist"),
   },
   target: "node",
   module: {
@@ -20,4 +20,4 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"],
   },
-};
+});
